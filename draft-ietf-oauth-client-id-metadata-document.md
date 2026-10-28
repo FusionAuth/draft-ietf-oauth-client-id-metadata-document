@@ -341,7 +341,6 @@ The following authorization server metadata value is defined by this specificati
 
 
 
-
 --- back
 
 # Acknowledgments
