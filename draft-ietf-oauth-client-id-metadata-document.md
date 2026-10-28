@@ -155,8 +155,8 @@ the client to the user in an authorization consent screen, for example the
 client name and logo.
 
 The authorization server SHOULD fetch the document indicated by the `client_id`
-to retrieve the client registration information. The Authorization Server MUST
-send an `Accept` header of `application/cimd+json` as described in {{Section 12.5.1 of RFC9110}}
+to retrieve the client registration information. The Authorization Server SHOULD
+send an `Accept` header of `application/json` as described in {{Section 12.5.1 of RFC9110}}
 when fetching the client metadata. See {{accept-header}} for additional details.
 
 ## Client Metadata
@@ -307,7 +307,7 @@ Authorization servers SHOULD follow the recommendations in {{OWASP.SSRF}}.
 
 ### Accept Header {#accept-header}
 
-As described in {{client-information-discovery}}, when fetching the Client ID Metadata Document, the authorization server MUST send an `Accept` header of `application/cimd+json`. This reduces the chances that the authorization server can be used in a reflection attack on unrelated resources, as the target server has the `Accept` header to early reject the request if the request is made to a resource that does not return JSON.
+When fetching the Client ID Metadata Document, the authorization server follows the recommendations described in {{client-information-discovery}}, reducing the chances that the authorization server can be used in a reflection attack on unrelated resources, as the target server has the `Accept` header to early reject the request if the request is made to a resource that does not return JSON.
 
 
 ## Maximum Response Size for Client Metadata Documents
@@ -340,50 +340,6 @@ The following authorization server metadata value is defined by this specificati
 * Specification Document: {{as-metadata}} of {{&SELF}}
 
 
-## Media Type Registration
-
-This document registers the `application/cimd+json` media type for Client ID Metadata Documents carrying parameters encoded in JSON.
-
-**Type name:** `application`
-
-**Subtype name:** `cimd+json`
-
-**Required parameters:** N/A
-
-**Optional parameters:** N/A
-
-**Encoding considerations:** Encoding considerations are identical to those specified for the `application/json` media type.
-
-**Security considerations:** {{security-considerations}}
-
-**Interoperability considerations:** none
-
-**Published specification:** TBD
-
-**Applications that use this media type:** This media type is intended for Authorization-Server-Client communication as part of the OAuth framework for clients that use Client ID Metadata Documents as described in this document.
-
-**Fragment identifier considerations:** none
-
-**Additional information:**
-
-  **Deprecated alias names for this type:** none
-
-  **Magic number(s):** none
-
-  **File extension(s):** none
-
-  **Macintosh file type code(s):** none
-
-**Person & email address to contact for further information:** Aaron Parecki (aaron@parecki.com)
-
-**Intended usage:** COMMON
-
-**Restrictions on usage:** none
-
-**Author:** Aaron Parecki (aaron@parecki.com)
-
-**Change controller:** IETF
-
 
 
 --- back
@@ -404,7 +360,7 @@ The authors would like to thank the following people for their contributions and
 -01
 
 * Added security consideration for changes in Client Metadata
-* Require sending Accept header when fetching metadata, and register the `application/cimd+json` media type
+* Recommend sending Accept header when fetching metadata
 
 -00
 
