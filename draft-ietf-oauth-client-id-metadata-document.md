@@ -37,6 +37,7 @@ normative:
   RFC7591:
   RFC8259:
   RFC8414:
+  RFC9207:
   RFC9700:
 
 informative:
@@ -298,6 +299,10 @@ but MAY define its own upper and/or lower bounds on an acceptable cache lifetime
 
 The authorization server MUST NOT cache error responses. The authorization
 server also MUST NOT cache documents which are invalid or malformed.
+
+# Authorization Response
+
+The authorization response MUST include the `iss` parameter, as defined in {{RFC9207}}. See Section 7.15 and {{RFC9207}} for additional details how the client can use it to prevent mix-up attacks.
 
 # Authorization Server Metadata {#as-metadata}
 
