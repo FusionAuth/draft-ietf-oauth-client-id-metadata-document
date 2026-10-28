@@ -1,6 +1,9 @@
 LIBDIR := lib
 include $(LIBDIR)/main.mk
 
+# Use xml2rfc's built-in (rfc-editor.org) stylesheet instead of the template's serif one
+XML2RFC_HTML := --html --metadata-js-url=/dev/null
+
 $(LIBDIR)/main.mk:
 ifneq (,$(shell grep "path *= *$(LIBDIR)" .gitmodules 2>/dev/null))
 	git submodule sync
