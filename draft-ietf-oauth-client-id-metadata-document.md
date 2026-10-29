@@ -331,6 +331,12 @@ duration when none is otherwise indicated.
 The authorization server MUST NOT cache error responses. The authorization
 server also MUST NOT cache documents which are invalid or malformed.
 
+## Concurrent Discovery Requests
+
+An authorization server MUST ensure that concurrent discovery of the
+same, not previously seen, Client Identifier URL resolves consistently.
+All such requests MUST end up trusting the same resolved client state.
+
 # Authorization Response
 
 The authorization response MUST include the `iss` parameter, as defined in {{RFC9207}}. See Section 7.15 and {{RFC9207}} for additional details how the client can use it to prevent mix-up attacks.
