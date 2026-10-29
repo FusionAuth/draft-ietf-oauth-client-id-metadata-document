@@ -312,7 +312,7 @@ client's outstanding refresh tokens immediately.
 
 A terminal failure caused by the authorization server's own trust or policy
 MAY invalidate the client's outstanding refresh tokens immediately, at the
-authorization server's discretion, consistent with {{#client_metadata_changes}}.
+authorization server's discretion, consistent with {{client_metadata_changes}}.
 
 ## Metadata Caching {#metadata_caching}
 
