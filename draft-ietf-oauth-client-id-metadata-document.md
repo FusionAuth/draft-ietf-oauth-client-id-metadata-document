@@ -179,6 +179,8 @@ A Client Identifier URL MUST be associated with a set of client metadata,
 in the form of a Client ID Metadata Document as described in
 {{client_metadata_document}}, available at the Client Identifier URL.
 
+See also {{client_identifier_urls_security_considerations}} for security considerations relating to Client Identifier URLs.
+
 # Client ID Metadata Document {#client_metadata_document}
 
 The Client ID Metadata Document is a JSON ({{RFC8259}}) document containing the metadata
@@ -327,6 +329,12 @@ This deployment pattern is expected to be common in enterprise environments wher
 # Security Considerations
 
 In addition to the security considerations in OAuth 2.0 Core {{RFC6749}}, and OAuth 2.0 Threat Model and Security Considerations {{RFC6819}}, and {{RFC9700}} the additional considerations apply.
+
+## Client Identifier URLs {#client_identifier_urls_security_considerations}
+
+To prevent token confusion attacks, an authorization server SHOULD reject a Client Identifier URL that is equal, using simple string comparison as defined in Section 6.2.1 of {{RFC3986}}, to its own `issuer` identifier, or to the identifier of any authorization server or resource server it has a trust relationship with.
+
+The Client Identifier URL appears in tokens and assertions as the value of claims such as `aud` in tokens issued to the client, `iss` and `sub` in client authentication assertions ({{RFC7523}}), and `client_id` in access tokens and token introspection responses. If the Client Identifier URL equals the identifier of another party, these values become ambiguous, and a token or assertion relating to the client could be accepted by that party as having been issued by, issued to, or being about itself.
 
 ## Relationship between `redirect_uris` and `client_id` or `client_uri` {#redirect_uri_relationship}
 
