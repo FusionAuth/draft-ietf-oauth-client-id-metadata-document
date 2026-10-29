@@ -431,7 +431,7 @@ Authorization servers SHOULD ensure they only fetch or parse URLs with known and
 
 ### Accept Header {#accept-header}
 
-When fetching the Client ID Metadata Document, the authorization server follows the recommendations described in {{client-information-discovery}}, reducing the chances that the authorization server can be used in a reflection attack on unrelated resources, as the target server has the `Accept` header to early reject the request if the request is made to a resource that does not return JSON.
+When fetching the Client ID Metadata Document, the authorization server follows the recommendations described in {{client_information_discovery}}, reducing the chances that the authorization server can be used in a reflection attack on unrelated resources, as the target server has the `Accept` header to early reject the request if the request is made to a resource that does not return JSON.
 
 ## Maximum Response Size for Client ID Metadata Documents
 
