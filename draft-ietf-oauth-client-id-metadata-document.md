@@ -37,6 +37,7 @@ normative:
   RFC7591:
   RFC8259:
   RFC8414:
+  RFC9110:
   RFC9207:
   RFC9700:
 
@@ -94,6 +95,9 @@ informative:
   I-D.draft-ietf-oauth-spiffe-client-auth:
   RFC7523:
   RFC9111:
+  OWASP.SSRF:
+    title: OWASP SSRF Cheat Sheet
+    target: https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
 
 entity:
   SELF: "[draft-ietf-oauth-client-id-metadata-document-latest]"
@@ -267,6 +271,11 @@ relying on software statements delivered this way.
 
 Authorization servers SHOULD automatically fetch the Client ID Metadata
 Document at the Client Identifier URL to retrieve the client metadata.
+
+The Authorization Server SHOULD
+send an `Accept` header of `application/json` as described in {{Section 12.5.1 of RFC9110}}
+when fetching the client metadata. See {{accept-header}} for additional details.
+
 Authorization servers SHOULD periodically re-fetch the Client ID Metadata Document
 as the contents may change over time. See {{metadata_caching}} and
 {{client_metadata_changes}} for additional considerations.
@@ -329,7 +338,7 @@ An authorization server MAY pre-register Client Identifier URLs. This is a valid
 This deployment pattern is expected to be common in enterprise environments where enterprise customers wish to explicitly onboard particular clients into their environment. The Client Identifier URL can be registered with the identity provider, including establishing client authentication as described in {{client_authentication}}, where it can behave the same way as a pre-registered client. There is no obligation to support dynamic client onboarding by using the mechanisms described in this document.
 
 
-# Security Considerations
+# Security Considerations {#security-considerations}
 
 In addition to the security considerations in OAuth 2.0 Core {{RFC6749}}, and OAuth 2.0 Threat Model and Security Considerations {{RFC6819}}, and {{RFC9700}} the additional considerations apply.
 
@@ -412,11 +421,17 @@ If fetching the Client ID Metadata Document fails for any reason, the `client_id
 
 Authorization servers fetching the Client ID Metadata Document and resolving URLs contained within it should be aware of possible SSRF attacks. Authorization servers MUST NOT fetch a Client ID Metadata Document URL or any URLs contained within a Client ID Metadata Document that resolve to special-use IP addresses as defined in {{RFC6890}}.
 
+Authorization servers SHOULD follow the recommendations in {{OWASP.SSRF}}.
+
 Authorization servers deployed for development or testing purposes MAY relax this restriction to allow fetching from loopback addresses when the authorization server itself is also running on a loopback address and the resolved address matches the same loopback interface. Authorization servers MUST NOT apply this exception in production deployments, since doing so would allow an attacker-controlled Client Identifier URL to cause the authorization server to make requests against itself or other services on the loopback interface or special-use IP addresses.
 
 Authorization servers SHOULD consider network policies or other measures to prevent making requests to special-use addresses. Authorization servers which support non-http-based URI schemes are at additional risk of SSRF attacks.
 
 Authorization servers SHOULD ensure they only fetch or parse URLs with known and supported URI schemes. This can help avoid leading to compromises if a client uses a URI scheme such as `javascript:` in a metadata property.
+
+### Accept Header {#accept-header}
+
+When fetching the Client ID Metadata Document, the authorization server follows the recommendations described in {{client_information_discovery}}, reducing the chances that the authorization server can be used in a reflection attack on unrelated resources, as the target server has the `Accept` header to early reject the request if the request is made to a resource that does not return JSON.
 
 ## Maximum Response Size for Client ID Metadata Documents
 
@@ -588,6 +603,7 @@ The authors would like to thank the following people for their contributions and
 -01
 
 * Added security consideration for changes in Client Metadata
+* Recommend sending Accept header when fetching metadata
 * Added guidance for an AS that supports both registered and unregistered clients
 * Require HTTP 200 response for fetching metadata
 * Added additional SSRF considerations
